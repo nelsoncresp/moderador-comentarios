@@ -53,8 +53,18 @@ La aplicación carga los datos de [comentarios.json](./backend/data/comentarios.
 - Filtros por categoría y búsqueda.
 - Gráfica de actividad agrupada por fecha.
 - Formulario para guardar una decisión manual.
+- Diseño responsivo para escritorio, tablet y móvil.
 
 Si el puerto 3000 está ocupado, detén el proceso que lo está utilizando antes de iniciar la aplicación.
+
+## Diseño responsivo
+
+La interfaz se adapta a distintos tamaños de pantalla:
+
+- En tablet, las tarjetas del resumen se reorganizan y los paneles principales pasan a una sola columna.
+- En móvil, el aside se compacta a una barra lateral de iconos y el navbar ajusta su contenido.
+- La tabla conserva todas sus columnas mediante desplazamiento horizontal para no ocultar información.
+- Los encabezados, botones y filtros se reorganizan para facilitar su uso en pantallas estrechas.
 
 ## Categorías
 
