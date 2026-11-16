@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moderation Center</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>if (localStorage.getItem("moderation-theme") === "light") document.documentElement.classList.add("light-theme");</script>
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-name">Moderación</span>
+        <span class="sidebar-caption">Soporte técnico</span>
+      </div>
+      <div class="sidebar-section-title"><span>Workspace</span></div>
+      <nav class="sidebar-nav" aria-label="Navegación principal">
+        <button class="sidebar-link is-active" type="button" data-view="dashboard">
+          <svg class="sidebar-link-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"></rect><rect x="12" y="3" width="5" height="5" rx="1"></rect><rect x="3" y="12" width="5" height="5" rx="1"></rect><rect x="12" y="12" width="5" height="5" rx="1"></rect></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="sidebar-link" type="button" data-view="comments">
+          <svg class="sidebar-link-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H9l-3.5 2v-2H4A1.5 1.5 0 0 1 2.5 13V6A1.5 1.5 0 0 1 4 4.5Z"></path><path d="M6 8h8M6 11h5"></path></svg>
+          <span>Comentarios</span>
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema">
+          <svg class="sidebar-link-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2"></circle><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4"></path></svg>
+          <span id="theme-label">Modo claro</span>
+          <span class="theme-icon theme-icon-sun" aria-hidden="true"></span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <nav class="site-navbar" aria-label="Identidad del servicio">
+        <span class="site-navbar-name">Soporte técnico</span>
+        <span class="site-navbar-section">Consola de moderación</span>
+      </nav>
+      <section id="dashboard-view" class="view-panel">
+        <div class="page-heading">
+          <div>
+            <p class="section-kicker">Centro de control</p>
+            <h1>Resumen de moderacion</h1>
+            <p class="page-description">Una vista rapida del estado de los comentarios procesados por tus reglas locales.</p>
+          </div>
+          <button class="primary-button" type="button" data-view="comments">Ver comentarios</button>
+        </div>
+
+        <section class="metric-grid" aria-label="Resumen de comentarios">
+          <article class="metric-card metric-total">
+            <span class="metric-label">Total procesados</span>
+            <strong id="kpi-total">0</strong>
+            <span class="metric-note">Comentarios recibidos</span>
+          </article>
+          <article class="metric-card metric-review">
+            <span class="metric-label">Requieren revision</span>
+            <strong id="kpi-revisar">0</strong>
+            <span class="metric-note">Necesitan criterio humano</span>
+          </article>
+          <article class="metric-card metric-spam">
+            <span class="metric-label">Spam detectado</span>
+            <strong id="kpi-spam">0</strong>
+            <span class="metric-note">Marcados por las reglas</span>
+          </article>
+          <article class="metric-card metric-ok">
+            <span class="metric-label">Comentarios OK</span>
+            <strong id="kpi-ok">0</strong>
+            <span class="metric-note">Sin senales de riesgo</span>
+          </article>
+        </section>
+
+        <div class="summary-context">
+          <span class="summary-context-label">Ventana de comentarios</span>
+          <strong id="summary-period">Periodo de datos: pendiente</strong>
+          <span id="summary-updated">Última actividad: pendiente</span>
+        </div>
+
+        <section class="dashboard-grid">
+          <article class="dashboard-card">
+            <div class="card-heading">
+              <div>
+                <h2>Comentarios por fecha</h2>
+                <p>Volumen recibido en cada día del periodo analizado</p>
+              </div>
+              <span id="activity-total" class="card-badge">0 comentarios</span>
+            </div>
+            <div id="activity-chart" class="activity-chart" aria-label="Comentarios recibidos por fecha"></div>
+          </article>
+          <article class="dashboard-card guidance-card">
+            <div class="card-heading">
+              <div>
+                <h2>Siguiente paso</h2>
+                <p>Trabaja primero los casos con mayor riesgo.</p>
+              </div>
+            </div>
+            <div class="guidance-content">
+              <span class="guidance-number" id="guidance-count">0</span>
+              <div><strong>comentarios esperan revision</strong><p>Abre la bandeja para filtrarlos por prioridad, reportes o categoria.</p></div>
+            </div>
+            <button class="secondary-button" type="button" data-view="comments">Abrir bandeja</button>
+          </article>
+        </section>
+      </section>
+
+      <section id="comments-view" class="view-panel is-hidden">
+        <div class="page-heading">
+          <div>
+            <p class="section-kicker">Resultado de la clasificacion</p>
+            <h1>Comentarios clasificados</h1>
+            <p class="page-description">Cada comentario tiene una categoria, un motivo y una accion clara para el moderador.</p>
+          </div>
+          <div id="estado" class="status-message" role="status" aria-live="polite">Cargando comentarios...</div>
+        </div>
+
+        <div class="filter-tabs" role="group" aria-label="Filtrar por categoria">
+          <button class="filter-button is-active" type="button" data-filter="todos">Todos <span data-count="todos">0</span></button>
+          <button class="filter-button" type="button" data-filter="revisar">Revisar <span data-count="revisar">0</span></button>
+          <button class="filter-button" type="button" data-filter="spam">Spam <span data-count="spam">0</span></button>
+          <button class="filter-button" type="button" data-filter="ok">OK <span data-count="ok">0</span></button>
+        </div>
+
+        <section class="table-card">
+          <div class="table-toolbar">
+            <div class="classification-note"><strong>Clasificacion automatica</strong><span>Reglas locales aplicadas a cada comentario. El idioma no cambia la categoria por si solo.</span></div>
+            <label class="search-box"><span>Buscar</span><input id="comment-search" type="search" placeholder="Usuario, texto o motivo"></label>
+            <label class="select-control"><span>Prioridad</span><select id="priority-filter"><option value="todas">Todas</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></label>
+            <label class="reports-toggle"><input id="solo-reportes" type="checkbox"><span>Reportados</span></label>
+          </div>
+          <div class="table-scroll">
+            <table class="comments-table">
+              <thead><tr><th>Comentario</th><th>Fecha</th><th>Motivo</th><th>Reportes</th><th>Resultado</th><th>Accion</th></tr></thead>
+              <tbody id="lista-comentarios"></tbody>
+            </table>
+          </div>
+          <div class="table-footer"><span id="pagination-status">0 comentarios mostrados</span><div class="pagination"><button id="previous-page" type="button">Anterior</button><span id="page-status">1 / 1</span><button id="next-page" type="button">Siguiente</button></div></div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <div id="decision-modal" class="decision-modal" aria-hidden="true">
+    <div id="decision-form">
+      <div class="modal-header">
+        <div>
+          <p class="section-kicker">Accion de moderacion</p>
+          <h2>Decision del moderador</h2>
+        </div>
+        <button id="close-modal" class="modal-close" type="button" aria-label="Cerrar">Cerrar</button>
+      </div>
+      <p id="decision-description" class="modal-description">Elige el resultado que debe conservar este comentario.</p>
+      <label class="decision-option"><input type="radio" name="decision" value="ok"><span><strong>OK</strong><small>Se puede publicar.</small></span></label>
+      <label class="decision-option"><input type="radio" name="decision" value="revisar"><span><strong>Revisar</strong><small>Un moderador debe analizarlo.</small></span></label>
+      <label class="decision-option"><input type="radio" name="decision" value="spam"><span><strong>Spam</strong><small>Publicidad o contenido basura.</small></span></label>
+      <div class="modal-actions">
+        <button id="cancel-modal" class="secondary-button" type="button">Cancelar</button>
+        <button id="save-decision" class="primary-button" type="button">Guardar decision</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

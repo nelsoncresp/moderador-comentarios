@@ -1,0 +1,14 @@
+{
+  "name": "moderador-comentarios",
+  "version": "1.0.0",
+  "description": "Sistema local de moderación de comentarios",
+  "type": "module",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "test": "node --test backend/tests/rulesEngine.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

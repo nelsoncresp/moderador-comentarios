@@ -1,0 +1,21 @@
+node_modules/
+npm-debug.log*
+
+# Variables de entorno y secretos locales
+.env
+.env.*
+!.env.example
+
+# Logs y reportes generados
+*.log
+coverage/
+.nyc_output/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Archivos temporales del editor
+*.swp
+*.swo
